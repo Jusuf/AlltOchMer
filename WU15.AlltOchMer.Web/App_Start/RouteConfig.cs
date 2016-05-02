@@ -15,8 +15,9 @@ namespace WU15.AlltOchMer.Web
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Product", action = "", id = UrlParameter.Optional }
+                url: "Pages/Index"
+                //url: "{controller}/{action}/{id}",
+                //defaults: new { controller = "Product", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
