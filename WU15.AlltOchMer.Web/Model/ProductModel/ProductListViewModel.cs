@@ -6,7 +6,7 @@ using WU15.AlltOchMer.Data;
 
 namespace WU15.AlltOchMer.Web.Model.ProductModel
 {
-    public class ProductViewModel
+    public class ProductListViewModel
     {
         public int Id { get; set; }
 

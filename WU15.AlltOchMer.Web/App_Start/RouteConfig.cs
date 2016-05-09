@@ -15,7 +15,7 @@ namespace WU15.AlltOchMer.Web
 
             routes.MapRoute(
                 name: "Default",
-                url: "Pages/Index"
+                url: "api/{controller}/{id}"
                 //url: "{controller}/{action}/{id}",
                 //defaults: new { controller = "Product", action = "Index", id = UrlParameter.Optional }
             );

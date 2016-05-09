@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Formatting;
 using System.Web.Http;
+using Newtonsoft.Json.Serialization;
 
 namespace WU15.AlltOchMer.Web
 {
@@ -11,9 +13,13 @@ namespace WU15.AlltOchMer.Web
         {
             // Web API configuration and services
 
-            var json = config.Formatters.JsonFormatter;
-            json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
-            config.Formatters.Remove(config.Formatters.XmlFormatter);
+            var jasonFormater = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
+
+            jasonFormater.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+            //var json = config.Formatters.JsonFormatter;
+            //json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
+            //config.Formatters.Remove(config.Formatters.XmlFormatter);
 
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -23,6 +29,13 @@ namespace WU15.AlltOchMer.Web
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            //config.Routes.MapHttpRoute(
+            //    name: "IndexApi",
+            //    routeTemplate: "api/Index.html#/{controller}/{id}",
+            //    defaults: new { id = RouteParameter.Optional }
+            //);
+            
         }
     }
 }
