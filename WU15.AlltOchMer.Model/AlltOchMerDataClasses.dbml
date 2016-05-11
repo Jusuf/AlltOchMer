@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="WU15.AlltOchMer" Class="AlltOchMerDataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=localhost;Initial Catalog=WU15.AlltOchMer;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="WU15_AlltOchMerConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Category" Member="Categories">
+    <Type Name="Category">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Category_Category" Member="Categories" ThisKey="Id" OtherKey="ParentId" Type="Category" />
+      <Association Name="Category_CategoryName" Member="CategoryNames" ThisKey="Id" OtherKey="CategoryId" Type="CategoryName" />
+      <Association Name="Category_ProductCategory" Member="ProductCategories" ThisKey="Id" OtherKey="CategoryId" Type="ProductCategory" />
+      <Association Name="Category_Category" Member="Category1" ThisKey="ParentId" OtherKey="Id" Type="Category" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CategoryName" Member="CategoryNames">
+    <Type Name="CategoryName">
+      <Column Name="CategoryId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LanguageId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Category_CategoryName" Member="Category" ThisKey="CategoryId" OtherKey="Id" Type="Category" IsForeignKey="true" />
+      <Association Name="Language_CategoryName" Member="Language" ThisKey="LanguageId" OtherKey="Id" Type="Language" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Country" Member="Countries">
+    <Type Name="Country">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CountryCode" Type="System.String" DbType="NChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="CurrencyId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Country_SaleTax" Member="SaleTaxes" ThisKey="Id" OtherKey="CountryId" Type="SaleTax" />
+      <Association Name="Currency_Country" Member="Currency" ThisKey="CurrencyId" OtherKey="Id" Type="Currency" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Currency" Member="Currencies">
+    <Type Name="Currency">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CurrencyCode" Type="System.String" DbType="NVarChar(3) NOT NULL" CanBeNull="false" />
+      <Column Name="CurrencyValue" Type="System.Decimal" DbType="Decimal(5,4) NOT NULL" CanBeNull="false" />
+      <Association Name="Currency_Country" Member="Countries" ThisKey="Id" OtherKey="CurrencyId" Type="Country" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Language" Member="Languages">
+    <Type Name="Language">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Language_CategoryName" Member="CategoryNames" ThisKey="Id" OtherKey="LanguageId" Type="CategoryName" />
+      <Association Name="Language_ProductDescription" Member="ProductDescriptions" ThisKey="Id" OtherKey="LanguageId" Type="ProductDescription" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PriceList" Member="PriceLists">
+    <Type Name="PriceList">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="ValidFrom" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="PriceList_ProductPriceList" Member="ProductPriceLists" ThisKey="Id" OtherKey="PriceListId" Type="ProductPriceList" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Product" Member="Products">
+    <Type Name="Product">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ArticleNumber" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Association Name="Product_ProductCategory" Member="ProductCategories" ThisKey="Id" OtherKey="ProductId" Type="ProductCategory" />
+      <Association Name="Product_ProductDescription" Member="ProductDescriptions" ThisKey="Id" OtherKey="ProductId" Type="ProductDescription" />
+      <Association Name="Product_ProductPriceList" Member="ProductPriceLists" ThisKey="Id" OtherKey="ProductId" Type="ProductPriceList" />
+      <Association Name="Product_ProductSaleTax" Member="ProductSaleTaxes" ThisKey="Id" OtherKey="ProductId" Type="ProductSaleTax" />
+      <Association Name="Product_ProductSupplier" Member="ProductSuppliers" ThisKey="Id" OtherKey="ProductId" Type="ProductSupplier" />
+      <Association Name="Product_ShoppingBasketProduct" Member="ShoppingBasketProducts" ThisKey="Id" OtherKey="ProductId" Type="ShoppingBasketProduct" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ProductCategory" Member="ProductCategories">
+    <Type Name="ProductCategory">
+      <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CategoryId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Category_ProductCategory" Member="Category" ThisKey="CategoryId" OtherKey="Id" Type="Category" IsForeignKey="true" />
+      <Association Name="Product_ProductCategory" Member="Product" ThisKey="ProductId" OtherKey="Id" Type="Product" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ProductDescription" Member="ProductDescriptions">
+    <Type Name="ProductDescription">
+      <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="LanguageId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Language_ProductDescription" Member="Language" ThisKey="LanguageId" OtherKey="Id" Type="Language" IsForeignKey="true" />
+      <Association Name="Product_ProductDescription" Member="Product" ThisKey="ProductId" OtherKey="Id" Type="Product" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ProductPriceList" Member="ProductPriceLists">
+    <Type Name="ProductPriceList">
+      <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PriceListId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Price" Type="System.Decimal" DbType="Decimal(7,0) NOT NULL" CanBeNull="false" />
+      <Association Name="PriceList_ProductPriceList" Member="PriceList" ThisKey="PriceListId" OtherKey="Id" Type="PriceList" IsForeignKey="true" />
+      <Association Name="Product_ProductPriceList" Member="Product" ThisKey="ProductId" OtherKey="Id" Type="Product" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ProductSaleTax" Member="ProductSaleTaxes">
+    <Type Name="ProductSaleTax">
+      <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SaleTaxId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Product_ProductSaleTax" Member="Product" ThisKey="ProductId" OtherKey="Id" Type="Product" IsForeignKey="true" />
+      <Association Name="SaleTax_ProductSaleTax" Member="SaleTax" ThisKey="SaleTaxId" OtherKey="Id" Type="SaleTax" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ProductSupplier" Member="ProductSuppliers">
+    <Type Name="ProductSupplier">
+      <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SupplierId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Product_ProductSupplier" Member="Product" ThisKey="ProductId" OtherKey="Id" Type="Product" IsForeignKey="true" />
+      <Association Name="Supplier_ProductSupplier" Member="Supplier" ThisKey="SupplierId" OtherKey="Id" Type="Supplier" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SaleTax" Member="SaleTaxes">
+    <Type Name="SaleTax">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="SalesTaxValue" Type="System.Decimal" DbType="Decimal(4,2) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="CountryId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="SaleTax_ProductSaleTax" Member="ProductSaleTaxes" ThisKey="Id" OtherKey="SaleTaxId" Type="ProductSaleTax" />
+      <Association Name="Country_SaleTax" Member="Country" ThisKey="CountryId" OtherKey="Id" Type="Country" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ShoppingBasket" Member="ShoppingBaskets">
+    <Type Name="ShoppingBasket">
+      <Column Name="GUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="ShoppingBasket_ShoppingBasketProduct" Member="ShoppingBasketProducts" ThisKey="GUID" OtherKey="ShoppingBasketGUID" Type="ShoppingBasketProduct" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ShoppingBasketProduct" Member="ShoppingBasketProducts">
+    <Type Name="ShoppingBasketProduct">
+      <Column Name="ShoppingBasketGUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Product_ShoppingBasketProduct" Member="Product" ThisKey="ProductId" OtherKey="Id" Type="Product" IsForeignKey="true" />
+      <Association Name="ShoppingBasket_ShoppingBasketProduct" Member="ShoppingBasket" ThisKey="ShoppingBasketGUID" OtherKey="GUID" Type="ShoppingBasket" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Supplier" Member="Suppliers">
+    <Type Name="Supplier">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Association Name="Supplier_ProductSupplier" Member="ProductSuppliers" ThisKey="Id" OtherKey="SupplierId" Type="ProductSupplier" />
+    </Type>
+  </Table>
+</Database>

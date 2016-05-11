@@ -23,62 +23,65 @@ namespace WU15.AlltOchMer.Web.Controllers.Api
         //private IProductRepository productRepository;
 
         private IProductListRepository productListRepository;
+        private IProductRepository productRepository;
 
         public ProductController()
         {
             var alltOchMerDataContext = new AlltOchMerDataContext("AlltOchMerDbConnectionString");
             this.productListRepository = new ProductListRepository(alltOchMerDataContext);
+            this.productRepository = new ProductRepository(alltOchMerDataContext);
         }
-        public ProductController(IProductListRepository productListRepository)
+        public ProductController(IProductListRepository productListRepository, IProductRepository productRepository)
         {
             this.productListRepository = productListRepository;
+            this.productRepository = productRepository;
         }
 
         [HttpGet]
-        public List<ProductListView> GetAllProducts()
+        public List<ProductListView> AllProducts()
         {
             var productList = this.productListRepository.GetAll().ToList();
             return productList;
         }
 
-        //[HttpGet][EnableQuery]
-        //public IQueryable<Product> Get()
-        //{
-        //    var allProducts = this.productListRepository.GetAll().AsQueryable();
-            
-            //var products = allProducts.Where(p => p.Categories == p.Categories.)
-            //List<ProductViewModel> productList = new List<ProductViewModel>();
-
-            //var result = allProducts.Select(p => new ProductViewModel()
-            //{
-            //    Id = p.Id,
-            //    Name = p.Name,
-            //    AricleNumber = "0",
-            //    Price = 0,
-            //    PriceName = "Gratis",
-            //    ValidFrom = new DateTime()
-            //}).ToList();
-        //    return allProducts;
-            
-        //}
-
         //public IHttpActionResult Get(int id)
         //{
-            
-        //    var p = productService.GetProduct(id);
-            
-        //    if (p == null)
+
+        //    var product = this.productRepository.GetById(id);
+
+        //    if (product == null)
         //        return NotFound();
-        //    var productResult = new ProductViewModel()
-        //    {
-        //        Id = p.ProductId,
-        //        Name = p.ProductName,
-        //        PriceName = p.PriceName,
-        //        Price = p.Price,
-        //        ValidFrom = p.ValidFrom 
-        //    };
-        //    return Ok(productResult);
+
+        //    return Ok(product);
         //}
+
+        [HttpGet]
+        public IHttpActionResult ProductDetails(int id)
+        {
+            DateTime now = DateTime.Now;
+            AlltOchMerDataContext db = new AlltOchMerDataContext("AlltOchMerDbConnectionString");
+            var product = from p in db.Products
+                          join price in db.ProductPriceLists
+                          on p.Id equals price.ProductId
+
+                          join pl in db.PriceLists
+                          on price.PriceListId equals pl.Id
+                          
+                          join description in db.ProductDescriptions
+                          on p.Id equals description.ProductId
+                          
+                          where p.Id == id
+                          where description.LanguageId == 1
+                          where pl.ValidFrom >= now
+                          
+                          select p;
+
+            return Ok(product);
+            
+            //if (product == null)
+            //    return NotFound();
+            //return Ok(product);
+        }
 
     }
 }

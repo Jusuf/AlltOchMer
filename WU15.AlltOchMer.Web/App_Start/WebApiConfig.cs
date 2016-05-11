@@ -17,24 +17,24 @@ namespace WU15.AlltOchMer.Web
 
             jasonFormater.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
-            //var json = config.Formatters.JsonFormatter;
-            //json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
-            //config.Formatters.Remove(config.Formatters.XmlFormatter);
+            var json = config.Formatters.JsonFormatter;
+            json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
 
             // Web API routes
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "api/{controller}/AllProducts/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            //config.Routes.MapHttpRoute(
-            //    name: "IndexApi",
-            //    routeTemplate: "api/Index.html#/{controller}/{id}",
-            //    defaults: new { id = RouteParameter.Optional }
-            //);
+            config.Routes.MapHttpRoute(
+                name: "DefaultApiDetailsS",
+                routeTemplate: "api/{controller}/ProductDetails/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
             
         }
     }

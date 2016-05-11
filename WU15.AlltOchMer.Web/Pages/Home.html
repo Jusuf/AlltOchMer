@@ -7,14 +7,14 @@
         <table class="table-responsive">
             <thead>
                 <tr>
-                    <th>Id</th>
+                    <!--<th>Id</th>-->
                     <th>Produkt Namn</th>
                     <th>Pris</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="p in products">
-                    <td>{{p.id}}</td>
+                <tr ng-repeat="p in products" ng-click="getProductById(p.id)">
+                    <!--<td>{{p.id}}</td>-->
                     <td>{{p.name}}</td>
                     <td>{{p.price}}</td>
                 </tr>
