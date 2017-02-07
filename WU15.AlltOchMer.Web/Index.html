@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <title>Allt Och Mer</title>
+	<meta charset="utf-8" />
+    
+    <script src="Scripts/jquery-2.2.3.min.js"></script>
+    <script src="Scripts/angular.min.js"></script>
+    <script src="Scripts/angular-resource.min.js"></script>
+    <script src="Scripts/angular-route.min.js"></script>
+    <script src="App/App.js"></script>
+    <script src="App/Controllers/productController.js"></script>
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+
+
+</head>
+<body ng-controller="mainController">
+    
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#/">Allt Och Mer</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#/"><i class="fa fa-home"></i> Hem</a></li>
+                <li><a href="#about"><i class="fa fa-shield"></i> Om oss</a></li>
+                <li><a href="#contact"><i class="fa fa-comment"></i> Kontakta oss</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div id="main">
+
+        {{ message }}
+        <!-- angular templating -->
+        <!-- this is where content will be injected -->
+        <div ng-view></div>
+
+    </div>
+    
+</body>
+</html>
